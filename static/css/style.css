@@ -1,0 +1,171 @@
+html {
+  position: relative;
+}
+
+body {
+  margin-bottom: 120px;
+  margin-top: 30px;
+}
+
+.jumbotron {
+  padding-top: 150px;
+  background-color: white;
+  text-align: center;
+  background-size: cover;
+  min-height: 600px;
+}
+
+.jumbotron h1 {
+  font-family: "Lato", sans-serif;
+  font-size: 40px;
+}
+
+.jumbotron p {
+  font-family: "Lato", sans-serif;
+  text-align: left;
+}
+
+section {
+  padding-top: 100px;
+  min-height: 700px;
+  background-color: white;
+  padding-bottom: 100px;
+}
+
+.navbar-teal {
+  height: 70px;
+  background-color: white;
+}
+
+.floatingNav {
+  border-radius: 1px;
+
+  box-shadow: 0px 1px 10px #2a2625;
+}
+
+.page-scroll {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: black;
+}
+
+h2 {
+  font-family: "Lato", sans-serif;
+  font-size: 50px;
+}
+
+h5 {
+  font-family: "Lato", sans-serif;
+  color: black;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+h6 {
+  color: #98999b;
+  font-family: "Lato", sans-serif;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+p {
+  color: #98999b;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 7px;
+}
+
+.text-left,
+.lead {
+  color: black;
+}
+
+#preproccessing {
+  margin-top: 40px;
+}
+
+.left {
+  width: 250px;
+}
+
+#table_preproccess {
+  justify-content: center;
+  padding-right: 100px;
+  padding-left: 100px;
+}
+
+#hasil_training {
+  margin-top: 20px;
+  height: 500px;
+}
+
+#table_training {
+  justify-content: center;
+  padding-right: 200px;
+  padding-left: 200px;
+}
+
+.load-icon-train,
+.load-icon-test,
+.load-icon-pred {
+  padding-top: 40px;
+}
+
+#total_ulasan_title0,
+#total_ulasan_title1,
+#total_ulasan_title2,
+#total_ulasan_title3,
+#total_ulasan_title4,
+#total_ulasan_title5 {
+  font-size: 22px;
+}
+
+/* #total_ulasan {
+  padding-top: 100px;
+  padding-bottom: 100px;
+} */
+
+/* #rating_ulasan {
+  padding-top: 90px;
+  padding-bottom: 90px;
+} */
+
+.dashboard_title {
+  padding-top: 100px;
+}
+
+/* .carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after {
+  content: ">";
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: "<";
+  font-size: 55px;
+  color: red;
+} */
+
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+  filter: invert(100%);
+  width: 1%;
+}
+
+.carousel-control-next {
+  margin-right: -25px;
+}
+
+.carousel-control-prev {
+  margin-left: -25px;
+}

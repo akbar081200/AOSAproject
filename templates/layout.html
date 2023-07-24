@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html id="home">
+  <head>
+    <title>Analisis Sentimen</title>
+    <link rel="icon" href="../static/images/icon.png" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Aclonica|Lato|Raleway:900|Montserrat:500|Roboto+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-teal" id="navbar">
+      <div class="offset-sm-1">
+        <a class="navbar-brand page-scroll" href="/">
+          <h5 style="color: #363636; font-weight: bold">Home</h5>
+        </a>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div
+        class="collapse navbar-collapse justify-content-end"
+        id="navbarSupportedContent"
+      >
+        <ul class="navbar-nav my-2 my-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link page-scroll" href="/r_train" id="nav_training"
+              >Model Training &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span class="sr-only">(current)</span></a
+            >
+          </li>
+          {%if session.best_topics %}
+          <li class="nav-item active">
+            <a class="nav-link page-scroll" href="/r_map" id="nav_mapping"
+              >Mapping &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span class="sr-only">(current)</span></a
+            >
+          </li>
+          {% endif %} {%if session.aspek_list %}
+          <li class="nav-item active">
+            <a class="nav-link page-scroll" href="/r_db" id="nav_dashboard"
+              >Dashboard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span class="sr-only">(current)</span></a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <!-- end navbar -->
+
+    {% block content %} {% endblock %}
+  </body>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script
+    type="text/javascript"
+    src="https://code.jquery.com/jquery-3.5.1.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"
+  ></script>
+  <script src="../static/js/jquery.easing.1.3.js"></script>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/js/script.js"></script>
+  <script>
+    // Script Untuk training
+    // ketika form training disubmit, maka akan menjalankan fungsi berikut
+    $("#train_form").on("submit", function (e) {
+      e.preventDefault();
+      var file_train = new FormData($("#train_form")[0]); // menyimpan file data yang disubmit oleh pengguna
+      $(".load-icon-train").show();
+      $.ajax({
+        data: file_train, // mengirim file data
+        contentType: false,
+        cache: false,
+        processData: false,
+        type: "post",
+        url: "/training", // menuju fungsi training di app.py
+      }).done(function (data) {
+        $(".load-icon-train").hide();
+        window.location.reload(); // melakukan reload halaman untuk melihat section yang telah memiliki session
+      });
+    });
+
+    var df_lda = "{{session.table_lda}}";
+    var df_lda = df_lda.replaceAll("&#39;", '"');
+    var df_lda = JSON.parse(df_lda); // mengubah tipe data string menjadi list of list
+
+    $("#table_coherence").DataTable({
+      data: df_lda,
+      columns: [
+        { title: "Topics" },
+        { title: "Alpha" },
+        { title: "Beta" },
+        { title: "Coherence" },
+      ],
+      searching: false,
+      ordering: false,
+      info: false,
+      pageLength: 5,
+      lengthMenu: [
+        [5, 10, 20, -1],
+        [5, 10, 20, "Todos"],
+      ],
+    });
+
+    // Script Untuk mapping
+    // ketika form mapping disubmit, maka akan menjalankan fungsi berikut
+    $("#mapping-form").on("submit", function (e) {
+      e.preventDefault();
+      $(".load-icon-mapping").show();
+      var aspek = []; // membuat variabel untuk dikirimkan (hanya agar fungsi dapat berjalan)
+
+      for (var i = 0; i < "{{session.best_topics}}"; i++) {
+        temp = $("#topik" + i).val(); // deklarasi id topik1, topik2, topik3, ..., n. sesuai dgn jumlah topik
+        aspek.push(temp);
+      }
+
+      $.ajax({
+        data: { data: aspek },
+        type: "post",
+        url: "/map_viz",
+      }).done(function (data) {
+        $(".load-icon-mapping").hide();
+        window.location = "r_db"; // redirect ke halaman dashboard
+      });
+    });
+
+    // script Untuk dashboard
+    var table_session = "{{session.table_session}}";
+    var table_session = table_session.replaceAll("&#34;", '"'); // handle tanda petik 2 ", yang berubah menjadi &34; karena bug di session atau flasknya
+    var table_session = table_session.replaceAll("\\", " "); // handle escape character dalam data, jadi "\" dalam data akan dihapus
+    var table_session = JSON.parse(table_session);
+    var table_list = [];
+
+    // mengambil variabel dari sesion berbentuk string diubah menjadi bentuk array dengan json.parse
+    var total_ulasan = JSON.parse("{{session.total_ulasan}}");
+    var rating_ulasan = JSON.parse("{{session.rating_ulasan}}");
+    var ulasan_positif = JSON.parse("{{session.ulasan_positif}}");
+    var ulasan_negatif = JSON.parse("{{session.ulasan_negatif}}");
+    var ulasan_netral = JSON.parse("{{session.ulasan_netral}}");
+
+    for (var i = 0; i < "{{session.aspek_list |length }}"; ++i) {
+      // untuk table
+      console.log(i);
+      var df_final = table_session[i];
+      console.log(typeof df_final);
+      var df_final = df_final.replaceAll("&#39;", '"');
+      console.log(df_final);
+      var df_final = JSON.parse(df_final);
+      table_list.push(df_final);
+      // untuk total ulasan dan jumlah rating
+      $("#total_ulasan" + i).html(total_ulasan[i]);
+      $("#rating_ulasan" + i).html(rating_ulasan[i]);
+      $("#ulasan_positif" + i).html(ulasan_positif[i]);
+      $("#ulasan_negatif" + i).html(ulasan_negatif[i]);
+      $("#ulasan_netral" + i).html(ulasan_netral[i]);
+    }
+
+    // declare table umum dengan 3 kolom
+    $("#table0").DataTable({
+      data: table_list[0],
+      columns: [
+        { title: "no", width: "5%" },
+        { title: "ulasan", width: "45%" },
+        { title: "kategori", width: "35%" },
+        { title: "sentimen", width: "15%" },
+      ],
+      searching: false,
+      ordering: false,
+      info: false,
+      autoWidth: false,
+      pageLength: 5,
+      lengthMenu: [
+        [5, 10, 20, -1],
+        [5, 10, 20, "Todos"],
+      ],
+    });
+
+    // declare table per aspek dengan 2 kolom
+    for (var i = 1; i < "{{session.aspek_list |length }}"; i++) {
+      $("#table" + i).DataTable({
+        data: table_list[i],
+        columns: [
+          { title: "no", width: "5%" },
+          { title: "ulasan", width: "80%" },
+          { title: "sentimen", width: "15%" },
+        ],
+        searching: false,
+        ordering: false,
+        info: false,
+        autoWidth: false,
+        pageLength: 4,
+        lengthMenu: [
+          [4, 10, 20, -1],
+          [4, 10, 20, "Todos"],
+        ],
+      });
+    }
+  </script>
+</html>

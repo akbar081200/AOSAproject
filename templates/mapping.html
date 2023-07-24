@@ -1,0 +1,169 @@
+{% extends 'layout.html' %} {% block content%}
+<section class="mapping" id="mapping">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <center>
+          <h3>Model Mapping</h3>
+          <h6>
+            Pasangkan topik tersembunyi dengan aspek yang telah ditentukan
+          </h6>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-toggle="modal"
+                    data-target=".bd-example-modal-lg"
+                    style="float: right"
+                  >
+                    Petunjuk
+                  </button>
+                </div>
+              </div>
+
+              {%if session.best_topics %}
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                id="mapping-form"
+              >
+                <center>
+                  <div class="row">
+                    {%for i in range(session.best_topics) %}
+                    <div class="col-sm-4">
+                      {%if session.list_wordcloud %}<img
+                        src="{{session.list_wordcloud[i]}}"
+                        width="100%"
+                      />{% else %}
+                      <p>
+                        Gambar tidak ada{% endif %}
+                        <label for="topik{{i}}"
+                          >Pilih Aspek untuk topik {{i+1}}
+                        </label>
+                        <select
+                          type="text"
+                          class="form-control"
+                          name="topik{{i}}"
+                          id="topik{{i}}"
+                          style="width: 100%"
+                        >
+                          <option value="" disabled selected>
+                            Select your option
+                          </option>
+                          <option value="tangibles">
+                            Tangibles (Fasilitas Fisik Kampus)
+                          </option>
+                          <option value="reliability">
+                            Reliability (Keandalan Dosen dan Staf Akademik)
+                          </option>
+                          <option value="assurance">
+                            Assurance (Perlakuan pada Mahasiswa)
+                          </option>
+                          <option value="responsiveness">
+                            Responsiveness (Sikap Tanggap)
+                          </option>
+                          <option value="emphaty">
+                            Empathy (Pemahaman Terhadap Kepentingan Mahasiswa)
+                          </option>
+                        </select>
+                      </p>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </center>
+                <br />
+                <div class="row">
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      id="mapping_submit"
+                      class="btn btn-primary"
+                    >
+                      Generate Dashboard
+                    </button>
+                  </div>
+                  <br /><br /><br />
+                  <div class="col-12">
+                    <div class="load-icon-mapping" style="display: none">
+                      <img
+                        src="../static/images/ajax-loader.gif"
+                        alt="Loading..."
+                        width="50"
+                        height="50"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+        </center>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Tangibles (Fasilitas Fisik Kampus)</h4>
+          <p style="text-align: left">
+            • Ruang Kuliah <br />• Laboratorium <br />• Toilet <br />• Ruang
+            Ibadah
+          </p>
+          <br />
+          <h4 class="card-title">
+            Reliability (Keandalan Dosen dan Staf Akademik)
+          </h4>
+          <p style="text-align: left">
+            • Kejelasan materi perkuliahan
+            <br />• Modul yang diberikan kepada mahasiswa <br />• Dosen datang
+            tepat waktu <br />• Kualitas layanan staf akademik untuk memenuhi
+            kepentingan mahasiswa
+          </p>
+          <br />
+          <h4 class="card-title">Assurance (Perlakuan pada Mahasiswa)</h4>
+          <p style="text-align: left">
+            • Pengurusan berkas mahasiswa oleh staf fakultas
+            <br />• Kesantunan staf dalam memberikan pelayanan <br />• Bimbingan
+            dengan dosen pembimbing akademik <br />• Bimbingan tugas akhir
+            dengan dosen pembimbing tugas akhir
+          </p>
+          <br />
+          <h4 class="card-title">Responsiveness (Sikap Tanggap)</h4>
+          <p style="text-align: left">
+            • Fakultas membantu mahasiswa apabila menghadapi masalah akademik
+            <br />• Fakultas menyediakan bantuan (keringanan) bagi mahasiswa
+            tidak mampu
+          </p>
+          <br />
+          <h4 class="card-title">
+            Empathy (Pemahaman Terhadap Kepentingan Mahasiswa)
+          </h4>
+          <p style="text-align: left">
+            • Kepedulian Fakultas dalam memahami kepentingan dan kesulitan
+            mahasiswa
+            <br />• Fakultas memonitor terhadap kemajuan mahasiswa melalui dosen
+            pembimbing akademik <br />• Fakultas berusaha memahami minat dan
+            bakat mahasiswa dan berusaha untuk mengembangkannya
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

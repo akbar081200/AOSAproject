@@ -1,0 +1,335 @@
+{% extends 'layout.html' %} {% block content %}
+<section class="dashboard" id="dashboard">
+  <div class="container-fluid" style="width: 85%">
+    <!-- <div class="container"> -->
+    <!-- <div class="row">
+      <div class="col-sm-12">
+        <center>
+          <h3>Dashboard Analisis</h3>
+          <h6>
+            Tabel dan grafik berikut menjelaskan tentang sentimen pada review
+            mahasiswa
+          </h6>
+        </center>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div
+          id="carouselExampleControls"
+          class="carousel slide"
+          data-interval="false"
+        >
+          <div class="carousel-inner">
+            {%for i in range(session.aspek_list |length) %} {%if
+            session.aspek_list[i] == 'umum' %}
+            <!-- Mulai Slide 1 -->
+            <div class="carousel-item active">
+              <div class="row">
+                <div class="col-lg-12">
+                  <center>
+                    <h3>Dashboard Analisis ({{session.aspek_list[i]}})</h3>
+                    <h6>
+                      Tabel dan grafik berikut menjelaskan tentang aspek dan
+                      sentimen pada ulasan mahasiswa
+                    </h6>
+                  </center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Tabel Analisis Ulasan</h4>
+                      <table
+                        class="table"
+                        id="table{{i}}"
+                        style="text-align: center"
+                      ></table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title" id="total_ulasan_title{{i}}">
+                            Informasi Data
+                          </h4>
+                          <br />
+                          <center>
+                            <h1 id="total_ulasan{{i}}"></h1>
+                            <p>Jumlah Kalimat Ulasan</p>
+                            <br />
+                            <h1 id="ulasan_positif{{i}}"></h1>
+                            <p>Ulasan Positif</p>
+                            <br />
+                            <h1 id="ulasan_netral{{i}}"></h1>
+                            <p>Ulasan Netral</p>
+                            <br />
+                            <h1 id="ulasan_negatif{{i}}"></h1>
+                            <p>Ulasan Negatif</p>
+                            <br />
+                            <h1 id="rating_ulasan{{i}}"></h1>
+                            <p>Rating Ulasan</p>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Perbandingan Jumlah Aspek</h4>
+                          <div id="bar_viz">
+                            {%if session.bar_viz %}
+                            <img
+                              src="{{session.bar_viz}}"
+                              alt="Horizontal Bar Chart"
+                              width="100%"
+                            />
+                            {%else %}
+                            <p>Session (bar_viz) tidak ada</p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Sentimen per topik</h4>
+                          <div id="stacked_viz">
+                            {%if session.stacked_viz %}
+                            <img
+                              src="{{session.stacked_viz}}"
+                              alt="Horizontal Bar Chart"
+                              width="100%"
+                            />
+                            {%else %}
+                            <p>Session (stacked_viz) tidak ada</p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Wordcloud Umum</h4>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <p>15 kata teratas data sentimen positif</p>
+                          <img
+                            src="{{session.wc_viz_list[i][0]}}"
+                            alt="Horizontal Bar Chart"
+                            width="100%"
+                          />
+                        </div>
+                        <div class="col-lg-6">
+                          <p>15 kata teratas data sentimen negatif</p>
+                          <img
+                            src="{{session.wc_viz_list[i][1]}}"
+                            alt="Horizontal Bar Chart"
+                            width="100%"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Rating Sentimen</h4>
+                      <center>
+                        <div id="rating_viz">
+                          {%if session.rating_viz %}
+                          <img
+                            src="{{session.rating_viz}}"
+                            alt="Horizontal Bar Chart"
+                            width="100%"
+                          />
+                          {%else %}
+                          <p>Session (rating_viz) tidak ada</p>
+                          {% endif %}
+                        </div>
+                      </center>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Pie Chart Sentimen</h4>
+                      <center>
+                        <img
+                          src="{{session.pie_viz_list[i]}}"
+                          alt="Horizontal Bar Chart"
+                          width="100%"
+                        />
+                      </center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {%else %}
+            <!-- Mulai Slide 2,3,4,5,6 -->
+            <div class="carousel-item">
+              <div class="row">
+                <div class="col-lg-12">
+                  <center>
+                    <h3>Dashboard Analisis ({{session.aspek_list[i]}})</h3>
+                    <h6>
+                      Tabel dan grafik berikut menjelaskan tentang sentimen pada
+                      review mahasiswa
+                    </h6>
+                  </center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Tabel Analisis Ulasan</h4>
+                      <table
+                        class="table"
+                        id="table{{i}}"
+                        style="text-align: center"
+                      ></table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title" id="total_ulasan_title{{i}}">
+                            Informasi Data
+                          </h4>
+                          <br />
+                          <center>
+                            <h1 id="total_ulasan{{i}}"></h1>
+                            <p>Jumlah Ulasan</p>
+                            <br />
+                            <h1 id="ulasan_positif{{i}}"></h1>
+                            <p>Ulasan Positif</p>
+                            <br />
+                            <h1 id="ulasan_netral{{i}}"></h1>
+                            <p>Ulasan Netral</p>
+                            <br />
+                            <h1 id="ulasan_negatif{{i}}"></h1>
+                            <p>Ulasan Negatif</p>
+                            <br />
+                            <h1 id="rating_ulasan{{i}}"></h1>
+                            <p>Rating Ulasan</p>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Pie Chart Sentimen</h4>
+                              <img
+                                src="{{session.pie_viz_list[i]}}"
+                                alt="Horizontal Bar Chart"
+                                width="90%"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Rating Sentimen</h4>
+                              <img
+                                src="{{session.rating_viz_list[i]}}"
+                                alt="Horizontal Bar Chart"
+                                width="85%"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Wordcloud Aspek</h4>
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <p>15 kata teratas data sentimen positif</p>
+                              <img
+                                src="{{session.wc_viz_list[i][0]}}"
+                                alt="Horizontal Bar Chart"
+                                width="100%"
+                              />
+                            </div>
+                            <div class="col-lg-6">
+                              <p>15 kata teratas data sentimen negatif</p>
+                              <img
+                                src="{{session.wc_viz_list[i][1]}}"
+                                alt="Horizontal Bar Chart"
+                                width="100%"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+          <a
+            class="carousel-control-prev"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

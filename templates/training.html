@@ -1,0 +1,154 @@
+{% extends 'layout.html' %} {% block content%}
+<!-- training -->
+<section class="training" id="training">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <center>
+          <h3>Model Training</h3>
+          <h6>
+            Masukkan data review sehingga model dapat mengidentifikasi topik
+            dalam data
+          </h6>
+
+          <!-- Form upload data -->
+          <form method="POST" enctype="multipart/form-data" id="train_form">
+            <input type="file" name="file_train" id="file_train" />
+            <button type="submit" id="train_submit" class="btn btn-primary">
+              Train Data
+            </button>
+          </form>
+
+          <div class="load-icon-train" style="display: none">
+            <img
+              src="../static/images/ajax-loader.gif"
+              alt="Loading..."
+              width="50"
+              height="50"
+            />
+          </div>
+
+          <!-- Jika Model telah selesai dilatih maka akan menampilkan -->
+          {%if session.best_topics %}
+          <div class="card" id="preproccessing">
+            <div class="card-body">
+              <div class="row" id="table_preproccess">
+                <center>
+                  <h4>Tahap Preprocessing</h4>
+                  <h6>
+                    Data yang diproses berjumlah sebanyak {{
+                    session.total_paragraf }} paragraf ulasan <br /><br />
+                    menggunakan serangkaian teknik pra-pemrosesan data yang
+                    digunakan yaitu
+                  </h6>
+                </center>
+
+                <table class="table">
+                  <tr>
+                    <td class="left"><b>Input</b></td>
+                    <td class="right" id="ulasan">
+                      {{ session.df['ulasan'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Sentence Splitting</b></td>
+                    <td class="right" id="s_splitting">
+                      {{ session.df['s_splitting'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Case Folding</b></td>
+                    <td class="right" id="case_folding">
+                      {{ session.df['case_folding'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Remove Punctuation</b></td>
+                    <td class="right" id="r_punctuation">
+                      {{ session.df['r_punctuation'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Remove Stopwords</b></td>
+                    <td class="right" id="r_stopwords">
+                      {{ session.df['r_stopwords'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Stemming</b></td>
+                    <td class="right" id="stemming">
+                      {{ session.df['stemming'][2] }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="left"><b>Tokenization</b></td>
+                    <td class="right" id="t_kata">
+                      {{ session.df['t_kata'][2] }}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <br />
+
+            <div class="card-body" id="graf_coherence">
+              <h4>Grafik Line Chart</h4>
+              <center>
+                <h6>
+                  Parameter model LDA dengan nilai koherensi paling optimal
+                </h6>
+              </center>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div id="bt_viz">
+                    <img
+                      src="{{session.bt_viz}}"
+                      alt="Best Topic Coherence Chart"
+                      width="100%"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div id="teks1">
+                    <table
+                      class="table"
+                      id="table_coherence"
+                      style="text-align: center"
+                    ></table>
+                  </div>
+                </div>
+              </div>
+              <center>
+                <h6>
+                  Model akhir LDA dilatih menggunakan nilai topik sebanyak {{
+                  session.selected_k }} dengan nilai alpha sebesar {{
+                  session.selected_a }} dan beta sebesar {{ session.selected_b
+                  }}
+                </h6>
+              </center>
+            </div>
+
+            <div class="card-body">
+              <h4>Grafik PyLDAVis</h4>
+              <center>
+                <h6>Visualisasi topik dalam model LDA secara interaktif</h6>
+              </center>
+              <div class="row">
+                <div id="pyldavis">
+                  <iframe
+                    src="{{ url_for('lda_viz')}}"
+                    width="1100"
+                    height="700"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </center>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end training -->
+{% endblock %}
