@@ -8,40 +8,40 @@ This project aims to perform Aspect-Oriented Sentiment Analysis (AOSA) on studen
 
 ## Main Feature - Dashboard (General and per Aspect) as an Output
 
-General Dashboard (Use all of the data)
-![General Dashboard 1](./static/images/general_dashboard_1.png)
-![General Dashboard 2](./static/images/general_dashboard_2.png)
+- General Dashboard (Use all of the data)
+  ![General Dashboard 1](./static/images/general_dashboard_1.png)
+  ![General Dashboard 2](./static/images/general_dashboard_2.png)
 
-Aspect Dashboard (Only use the data from specific aspect, look for even deeper insights inside the data)
-![Aspect Dashboard](./static/images/aspect_dashboard_1.png)
+- Aspect Dashboard (Only use the data from specific aspect, look for even deeper insights inside the data)
+  ![Aspect Dashboard](./static/images/aspect_dashboard_1.png)
 
 ---
 
 ## Home Page
 
-Landing page
-![Home Page](./static/images/homepage.png)
+- Landing page
+  ![Home Page](./static/images/homepage.png)
 
 ---
 
 ## Model Training
 
-Upload data
-![Upload data](./static/images/model_training.png)
+- Upload data
+  ![Upload data](./static/images/model_training.png)
 
-Data Preprocessing Result
-![Data Preprocessing Result](./static/images/data_preprocessing.png)
-![Data Preprocessing Result 2](./static/images/data_preprocessing_2.png)
+- Data Preprocessing Result
+  ![Data Preprocessing Result](./static/images/data_preprocessing.png)
+  ![Data Preprocessing Result 2](./static/images/data_preprocessing_2.png)
 
-Model Result
-![Model Result](./static/images/model_hyperparameter_results.png)
+- Model Result
+  ![Model Result](./static/images/model_hyperparameter_results.png)
 
-LDAVis Graph
-![LDAVis Graph](./static/images/ldavis_graph.png)
+- LDAVis Graph
+  ![LDAVis Graph](./static/images/ldavis_graph.png)
 
 ---
 
 ## Topic-Aspect Mapping
 
-Topic-Aspect Mapping
-![Topic-Aspect Mapping](./static/images/mapping_identifiedtopic_to_aspects.png)
+- Topic-Aspect Mapping
+  ![Topic-Aspect Mapping](./static/images/mapping_identifiedtopic_to_aspects.png)
